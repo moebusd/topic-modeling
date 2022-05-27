@@ -1,10 +1,10 @@
 from setuptools import setup
-import urllib2
+import urllib
 
 
 setup(
         name='topic_modeling',
-        version=urllib2.urlopen("https://github.com/moebusd/topic-modeling/blob/main/version.txt"),
+        version=urllib.request.urlopen("https://github.com/moebusd/topic-modeling/blob/main/version.txt"),
         author="Dennis Möbus",
         author_email="dennis.moebus@fernuni-hagen.de",
         url="https://github.com/moebusd/topic-modeling",
