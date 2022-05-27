@@ -2,9 +2,9 @@ def setup_topic_training(mallet=False, gensim=False):
     import os
 
     if mallet:
-        !apt-get install -y openjdk-8-jdk-headless -qq > /dev / null  # install openjdk
+        !apt-get install -y openjdk-8-jdk-headless -qq > /dev/null  # install openjdk
         !wget http://mallet.cs.umass.edu/dist/mallet-2.0.8.zip
-        !unzip mallet - 2.0.8.zip
+        !unzip mallet-2.0.8.zip
 
         os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"  # set environment variable
         os.environ['MALLET_HOME'] = '/content/mallet-2.0.8'
