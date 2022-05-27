@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
         name='topic_modeling',
-        version=open("https://github.com/moebusd/topic-modeling/blob/main/version.txt").read(),
+        version=urllib.request.urlopen("https://github.com/moebusd/topic-modeling/blob/main/version.txt"),
         author="Dennis Möbus",
         author_email="dennis.moebus@fernuni-hagen.de",
         url="https://github.com/moebusd/topic-modeling",
