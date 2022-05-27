@@ -1,5 +1,5 @@
 from setuptools import setup
-import urllib
+import urllib.request
 
 
 setup(
