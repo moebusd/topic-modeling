@@ -9,13 +9,14 @@ def remove_stopwords_by_threshold(data, threshold):
 
     for line in data:
         wordcount = wordcount + len(line)
+    print(wordcount)
 
     for line in data:
         for word in line:
-            if word not in wordcounts:
-                wordcounts[word] = 1
             if word in wordcounts:
                 wordcounts[word] += 1
+            if word not in wordcounts:
+                wordcounts[word] = 1
 
     wordcounts_sorted = []
 
