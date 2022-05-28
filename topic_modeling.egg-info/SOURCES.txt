@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+setup.py
+topic_modeling/__init__.py
+topic_modeling/lemmatization.py
+topic_modeling/stopwords.py
+topic_modeling/topic_evaluation.py
+topic_modeling/topic_training.py
+topic_modeling.egg-info/PKG-INFO
+topic_modeling.egg-info/SOURCES.txt
+topic_modeling.egg-info/dependency_links.txt
+topic_modeling.egg-info/not-zip-safe
+topic_modeling.egg-info/top_level.txt

@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: topic-modeling
+Version: 0.6
+Summary: Topic Modeling Pipeline developed by DH research group at FernUniversität in Hagen
+Home-page: https://github.com/moebusd/topic_modeling
+Author: Dennis Möbus
+Author-email: dennis.moebus@fernuni-hagen.de
+License: MIT
