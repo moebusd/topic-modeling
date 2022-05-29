@@ -42,6 +42,11 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
 
     average_weight_gensim = sum_top_weights / top_counter
 
+    topwords_gensim = lda_model_gensim.print_topics(num_topics=topics)
+
+    return lda_model_gensim, doc_tops_gensim, topwords_gensim
+
+
     print('Minimales Topic-Weight Gensim: ' + str(min_weight_gensim))
     print('Durchschnittliches Topic-Weight Gensim: ' + str(average_weight_gensim))
     print('Maximales Topic-Weight Gensim: ' + str(max_weight_gensim))
@@ -49,6 +54,7 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
     now = str(datetime.now())[:19]
 
     modeldumps = '/modeldumps/'
+
 
     try:
         os.mkdir(modeldumps)
@@ -125,6 +131,10 @@ def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval
 
     average_weight_mallet = sum_top_weights / top_counter
 
+    topwords_mallet = lda_model_mallet.print_topics(num_topics=topics)
+
+    return lda_model_mallet, doc_tops_mallet, topwords_mallet
+
     print('Minimales Topic-Weight Mallet: ' + str(min_weight_mallet))
     print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
     print('Maximales Topic-Weight Mallet: ' + str(max_weight_mallet))
@@ -165,7 +175,7 @@ def print_topics(engine, top_words, topics, name_dataset, number_of_words, save_
     engines can be 'gensim' or 'mallet'
     to save list include save_doc=True
     """
-    import datetime
+    from datetime import datetime
     import re
     now = str(datetime.now())[:19]
 
