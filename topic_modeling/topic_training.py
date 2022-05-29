@@ -1,8 +1,8 @@
-def topic_training_gensim(dataset, name_dataset, topics, user, passes_gensim=500, iterations_gensim=5000):
+def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500, iterations_gensim=5000):
     import gensim
     import gensim.corpora as corpora
     import os
-    import datetime
+    from datetime import datetime
     import pandas as pd
 
     id2word = corpora.Dictionary(dataset)
@@ -80,7 +80,7 @@ def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval
     import gensim
     import gensim.corpora as corpora
     import os
-    import datetime
+    from datetime import datetime
     import pandas as pd
     os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"  # set environment variable
     os.environ['MALLET_HOME'] = '/content/mallet-2.0.8'

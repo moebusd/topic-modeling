@@ -2,11 +2,11 @@ def lemmatization(texts, min_wordlen, stoplist= False, allowed_postags=False):
     try:
         import spacy
     except ModuleNotFoundError:
-        print('Ist Spacy installiert?')
+        return 'Ist Spacy installiert?'
     try:
         nlp = spacy.load('de_core_news_lg', disable=['parser', 'ner'])
-    except FileNotFoundError:
-        print('Ist de_core_news_lg installiert?')
+    except IOError:
+        return 'Ist de_core_news_lg installiert?'
 
     texts_lemmatized = []
 
