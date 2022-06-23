@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='topic_modeling_moebusd',
-      version='0.13',
+      version='0.14',
       description='Topic Modeling Pipeline developed by DH research group at FernUniversität in Hagen',
       url='https://github.com/moebusd/topic_modeling',
       author='Dennis Möbus',
