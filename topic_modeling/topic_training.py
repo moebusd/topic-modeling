@@ -170,22 +170,21 @@ def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval
     out.close()
 
 
-def print_topics(engine, top_words, topics, name_dataset, number_of_words, save_doc=False):
+def print_topics_gensim(top_words_gensim, number_of_words, name_dataset_gensim, save_doc=False):
     """
     engines can be 'gensim' or 'mallet'
     to save list include save_doc=True
+    to save include optional arguments name_dataset and user
     """
     from datetime import datetime
     import re
     now = str(datetime.now())[:19]
 
-    if engine.lower() == 'gensim':
-
-            if save_doc:
-                out = open('keywords_gensim_' + name_dataset + '_' + str(
-                    topics) + 'topics_' + str(number_of_words) + 'keywords' + now + '.txt', 'w',
+    if save_doc:
+                out = open('keywords_gensim_' + name_dataset_gensim + '_' + str(
+                    len(top_words_gensim.splitlines())) + 'topics_' + str(number_of_words) + 'keywords' + now + '.txt', 'w',
                            encoding='UTF-8')
-                for line in top_words:
+                for line in top_words_gensim:
                     newline = []
                     for i in range(0, number_of_words):
                         newline.append(line[1].split(' + ')[i])
@@ -194,21 +193,25 @@ def print_topics(engine, top_words, topics, name_dataset, number_of_words, save_
                     print(out_line)
                 out.close()
 
-            else:
-                for line in top_words:
+    else:
+                for line in top_words_gensim:
                     newline = []
                     for i in range(0, number_of_words):
                         newline.append(line[1].split(' + ')[i])
                     out_line = str(int(line[0])) + ' ' + str(re.findall(r"\"(.*?)\"", str(newline))) + '\n'
                     print(out_line)
 
-    if engine.lower() == 'mallet':
+def print_topics_gensim(top_words_mallet, number_of_words, name_dataset_mallet, save_doc=False):
+    from datetime import datetime
+    import re
+    import gensim
+    now = str(datetime.now())[:19]
 
-            if save_doc:
-                out = open('keywords_mallet_' + name_dataset + '_' + str(
-                    topics) + 'topics_' + str(number_of_words) + 'keywords' + now + '.txt', 'w',
+    if save_doc:
+                out = open('keywords_mallet_' + name_dataset_mallet + '_' + str(len(top_words_mallet.splitlines())
+                    ) + 'topics_' + str(number_of_words) + 'keywords' + now + '.txt', 'w',
                            encoding='UTF-8')
-                for line in top_words:
+                for line in top_words_mallet:
                     newline = []
                     for i in range(0, number_of_words):
                         newline.append(line[1].split(' + ')[i])
@@ -217,8 +220,8 @@ def print_topics(engine, top_words, topics, name_dataset, number_of_words, save_
                     print(out_line)
                 out.close()
 
-            else:
-                for line in top_words:
+    else:
+                for line in top_words_mallet:
                     newline = []
                     for i in range(0, number_of_words):
                         newline.append(line[1].split(' + ')[i])
