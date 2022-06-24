@@ -42,9 +42,9 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
 
     average_weight_gensim = sum_top_weights / top_counter
 
-    topwords_gensim = lda_model_gensim.print_topics(num_topics=topics)
+    topwords_gensim = lda_model_gensim.print_topics(num_topics=topics, num_words=1000)
 
-    return lda_model_gensim, doc_tops_gensim, topwords_gensim
+
 
 
     print('Minimales Topic-Weight Gensim: ' + str(min_weight_gensim))
@@ -80,6 +80,8 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
     out.write('passes_gensim: ' + str(passes_gensim) + '\n')
     out.write('iterations_gensim: ' + str(iterations_gensim) + '\n')
     out.close()
+
+    return lda_model_gensim, doc_tops_gensim, topwords_gensim
 
 
 def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100):
@@ -131,9 +133,9 @@ def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval
 
     average_weight_mallet = sum_top_weights / top_counter
 
-    topwords_mallet = lda_model_mallet.print_topics(num_topics=topics)
+    topwords_mallet = lda_model_mallet.print_topics(num_topics=topics, num_words=1000)
 
-    return lda_model_mallet, doc_tops_mallet, topwords_mallet
+
 
     print('Minimales Topic-Weight Mallet: ' + str(min_weight_mallet))
     print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
@@ -169,6 +171,7 @@ def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval
     out.write('iterations_mallet: ' + str(iterations_mallet) + '\n')
     out.close()
 
+    return lda_model_mallet, doc_tops_mallet, topwords_mallet
 
 def print_topics_gensim(top_words_gensim, number_of_words, name_dataset_gensim, save_doc=False):
     """
@@ -201,7 +204,7 @@ def print_topics_gensim(top_words_gensim, number_of_words, name_dataset_gensim, 
                     out_line = str(int(line[0])) + ' ' + str(re.findall(r"\"(.*?)\"", str(newline))) + '\n'
                     print(out_line)
 
-def print_topics_gensim(top_words_mallet, number_of_words, name_dataset_mallet, save_doc=False):
+def print_topics_mallet(top_words_mallet, number_of_words, name_dataset_mallet, save_doc=False):
     from datetime import datetime
     import re
     import gensim
