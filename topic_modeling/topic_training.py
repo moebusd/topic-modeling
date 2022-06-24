@@ -1,4 +1,4 @@
-def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500, iterations_gensim=5000):
+def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500, iterations_gensim=5000, random_state_gensim=100):
     import gensim
     import gensim.corpora as corpora
     import os
@@ -82,7 +82,7 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
     out.close()
 
 
-def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval_mallet=500, iterations_mallet=5000):
+def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100):
     import gensim
     import gensim.corpora as corpora
     import os
