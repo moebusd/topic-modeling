@@ -172,3 +172,74 @@
 #         word_count = word_count + len(doc)
 #     return word_count
 #
+
+# @markdown Soll nur eine Auswahl von Interviews angezeigt werden? IDs in Textfeld eintragen, kommasepariert.
+
+def doc_top_heatmap(doc_tops, top_words, dataset, save_fig=False, width=1000, height=800):
+
+    import pandas as pd
+    import plotly.express as px
+    import re
+    from datetime import datetime
+
+
+    #document_search = False  # @param {type:"boolean"}
+    #document_id = "ADG0001,ADG0002,ADG0003"  # @param {type:"string"}
+    #document_ids_repl = document_id.replace(' ', '')
+    #document_ids = [id for id in document_ids_repl.split(',')]
+
+    width = 1000  # @param {type:"integer"}
+    height = 800  # @param {type:"integer"}
+
+    now = str(datetime.now())[:19]
+    matrix_type = 'doc_top'
+
+    # Keywords für X-Achse
+
+    raw_data = dataset
+    output = []
+    for line in top_words:
+            newline = ''
+            for i in range(0, 10):
+                newline = newline + str(line[i]) + ' '
+            output.append([line[0], newline])
+
+    if matrix_type == 'doc_top':
+
+        interview_id = raw_data[0][0].split('_')[0]
+        interview_topics = {}
+        tops_per_int_counter = []
+        chunk_count = 1
+
+        for i, line in enumerate(doc_tops):
+            if interview_id == raw_data[i][0].split('_')[0]:
+                for tup in line:
+                    if tup[0] not in interview_topics:
+                        interview_topics[tup[0]] = tup[1]
+                    if tup[0] in interview_topics:
+                        interview_topics[tup[0]] += tup[1]
+                chunk_count += 1
+
+            if interview_id != raw_data[i][0].split('_')[0] or i == len(raw_data) - 1:
+                for topic, count in interview_topics.items():
+                    tops_per_int_counter.append([interview_id, topic, count / chunk_count])
+                interview_id = raw_data[i][0].split('_')[0]
+                interview_topics = {}
+                chunk_count = 1
+                for tup in line:
+                    if tup[0] not in interview_topics:
+                        interview_topics[tup[0]] = tup[1]
+                    if tup[0] in interview_topics:
+                        interview_topics[tup[0]] += tup[1]
+
+    #if document_search:
+    #    transfer = []
+    #    for line in tops_per_int_counter:
+    #        if line[0].split('_')[0] in document_ids:
+    #            transfer.append(line)
+    #    tops_per_int_counter = transfer
+
+    df_heatmap = pd.DataFrame(tops_per_int_counter, columns=['doc', 'top', 'weight'])
+    doc_tops_heatmap = df_heatmap.pivot("doc", "top", "weight")
+    fig = px.imshow(doc_tops_heatmap, color_continuous_scale='emrld', height=height, width=width, aspect='auto')
+    fig.show()
