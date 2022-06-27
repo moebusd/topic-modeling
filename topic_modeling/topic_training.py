@@ -53,7 +53,7 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
 
     now = str(datetime.now())[:19]
 
-    modeldumps = '/modeldumps/'
+    modeldumps = 'modeldumps/'
 
 
     try:
@@ -84,21 +84,18 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
     return lda_model_gensim, doc_tops_gensim, topwords_gensim
 
 
-def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100):
+def topic_training_mallet(dataset, name_dataset, user, topics, mallet_path, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100):
     import gensim
     import gensim.corpora as corpora
     import os
     from datetime import datetime
     import pandas as pd
-    os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"  # set environment variable
-    os.environ['MALLET_HOME'] = '/content/mallet-2.0.8'
-    mallet_path = '/content/mallet-2.0.8/bin/mallet'
 
     id2word = corpora.Dictionary(dataset)
 
     corpus = [id2word.doc2bow(text) for text in dataset]
 
-    random_seed_mallet = 100  # @param {type:"integer"}
+
 
     lda_model_mallet = gensim.models.wrappers.ldamallet.LdaMallet(mallet_path, corpus=corpus, id2word=id2word,
                                                                   num_topics=topics, iterations=iterations_mallet,
@@ -144,7 +141,7 @@ def topic_training_mallet(dataset, name_dataset, user, topics, optimize_interval
 
     now = str(datetime.now())[:19]
 
-    modeldumps = '/modeldumps/'
+    modeldumps = 'modeldumps/'
 
     try:
         os.mkdir(modeldumps)
