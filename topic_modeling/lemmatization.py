@@ -11,12 +11,9 @@ def lemmatization(texts, min_wordlen, stoplist= False, allowed_postags=False):
     texts_lemmatized = []
 
     for text in texts:
-        print(text)
         doc = nlp(" ".join(text))
-        print(doc)
     if allowed_postags:
         texts_lemmatized.append([token.lemma_ for token in doc if token.pos_ in allowed_postags])
-        print(texts_lemmatized)
     if not allowed_postags:
         texts_lemmatized.append([token.lemma_ for token in doc])
 
@@ -30,5 +27,3 @@ def lemmatization(texts, min_wordlen, stoplist= False, allowed_postags=False):
 
 
     return data_out
-
-print(lemmatization([['Das', 'ist', 'ein', 'Text']], 2, allowed_postags=['NOUN', 'PROPNOUN']))
