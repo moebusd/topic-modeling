@@ -9,7 +9,6 @@ def remove_stopwords_by_threshold(data, threshold):
 
     for line in data:
         wordcount = wordcount + len(line)
-    print(wordcount)
 
     for line in data:
         for word in line:
