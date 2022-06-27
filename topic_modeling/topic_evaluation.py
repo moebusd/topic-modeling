@@ -63,44 +63,23 @@
 #         print(str(int(singularity)) + '%')
 #
 #
-# def topic_search(engine, topic_number, *threshold_custom_value):
-#     '''
-#     engine must be 'gensim' or 'mallet'
-#
-#     if threshold_custom_value is left empty, average topic weight is set as threshold
-#     treshold_custom_value must be float in range 0.0 and 1.0
-#     '''
-#
-#     if engine == 'gensim':
-#
-#         if threshold_custom_value:
-#             threshold_topic_weight = threshold_custom_value
-#         else:
-#             threshold_topic_weight = average_weight_gensim
-#
-#         if load_models == True:
-#             raw_data = load_dataset_gensim
-#
-#         for j, line in enumerate(doc_tops_gensim):
-#             for tup in line:
-#                 if tup[0] == topic_number and tup[1] >= threshold_topic_weight:
-#                     print(raw_data[j])
-#
-#     if engine == 'mallet':
-#
-#         if threshold_custom_value:
-#             threshold_topic_weight = threshold_custom_value
-#         else:
-#             threshold_topic_weight = average_weight_mallet
-#
-#         if load_models == True:
-#             raw_data = load_dataset_mallet
-#
-#         for j, line in enumerate(doc_tops_mallet):
-#             for tup in line:
-#                 if tup[0] == topic_search and tup[1] >= threshold_topic_weight:
-#                     print(raw_data[j])
-#
+def topic_search(topic_number, doc_tops, raw_data, average_topic_weight, *threshold_custom_value):
+     '''
+     if threshold_custom_value is left empty, average topic weight is set as threshold
+     treshold_custom_value must be float in range 0.0 and 1.0
+     '''
+
+     if threshold_custom_value:
+             threshold_topic_weight = threshold_custom_value
+     else:
+             threshold_topic_weight = average_topic_weight
+
+
+     for j, line in enumerate(doc_tops):
+             for tup in line:
+                 if tup[0] == topic_number and tup[1] >= threshold_topic_weight:
+                     print(raw_data[j])
+
 #
 # def topic_weights_plot(engine, save_doc=False, save_fig=False):
 #     top_weight_sum = {}
@@ -175,7 +154,7 @@
 
 # @markdown Soll nur eine Auswahl von Interviews angezeigt werden? IDs in Textfeld eintragen, kommasepariert.
 
-def doc_top_heatmap(doc_tops, top_words, dataset, save_fig=False, width=1000, height=800):
+def doc_top_heatmap(doc_tops, top_words, dataset, split_index=0, save_fig=False, width=1000, height=800):
 
     import pandas as pd
     import plotly.express as px
@@ -201,18 +180,18 @@ def doc_top_heatmap(doc_tops, top_words, dataset, save_fig=False, width=1000, he
     for line in top_words:
             newline = ''
             for i in range(0, 10):
-                newline = newline + str(line[i]) + ' '
+                newline = newline + str(line[1][i]) + ' '
             output.append([line[0], newline])
 
     if matrix_type == 'doc_top':
 
-        interview_id = raw_data[0][0].split('_')[0]
+        interview_id = str(raw_data[0][0].split('_')[:split_index])
         interview_topics = {}
         tops_per_int_counter = []
         chunk_count = 1
 
         for i, line in enumerate(doc_tops):
-            if interview_id == raw_data[i][0].split('_')[0]:
+            if interview_id == str(raw_data[0][0].split('_')[:split_index]):
                 for tup in line:
                     if tup[0] not in interview_topics:
                         interview_topics[tup[0]] = tup[1]
@@ -220,17 +199,20 @@ def doc_top_heatmap(doc_tops, top_words, dataset, save_fig=False, width=1000, he
                         interview_topics[tup[0]] += tup[1]
                 chunk_count += 1
 
-            if interview_id != raw_data[i][0].split('_')[0] or i == len(raw_data) - 1:
-                for topic, count in interview_topics.items():
-                    tops_per_int_counter.append([interview_id, topic, count / chunk_count])
-                interview_id = raw_data[i][0].split('_')[0]
-                interview_topics = {}
-                chunk_count = 1
-                for tup in line:
-                    if tup[0] not in interview_topics:
-                        interview_topics[tup[0]] = tup[1]
-                    if tup[0] in interview_topics:
-                        interview_topics[tup[0]] += tup[1]
+            try:
+                if interview_id != str(raw_data[i][0].split('_')[:split_index]) or i == len(raw_data) - 1:
+                    for topic, count in interview_topics.items():
+                        tops_per_int_counter.append([interview_id, topic, count / chunk_count])
+                    interview_id = str(raw_data[i][0].split('_')[:split_index])
+                    interview_topics = {}
+                    chunk_count = 1
+                    for tup in line:
+                        if tup[0] not in interview_topics:
+                            interview_topics[tup[0]] = tup[1]
+                        if tup[0] in interview_topics:
+                            interview_topics[tup[0]] += tup[1]
+            except IndexError:
+                continue
 
     #if document_search:
     #    transfer = []
