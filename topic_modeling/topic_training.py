@@ -83,6 +83,11 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
     out.write('random_state_gensim: ' + str(random_state_gensim) + '\n')
     out.write('passes_gensim: ' + str(passes_gensim) + '\n')
     out.write('iterations_gensim: ' + str(iterations_gensim) + '\n')
+    out.write('Coherence Score: ' + str(coherence_ldagensim) + '\n')
+    out.write('Minimales Topic-Weight Gensim: ' + str(min_weight_gensim) + '\n')
+    out.write('Durchschnittliches Topic-Weight Gensim: ' + str(average_weight_gensim) + '\n')
+    out.write('Maximales Topic-Weight Gensim: ' + str(max_weight_gensim) + '\n')
+
     out.close()
 
     return lda_model_gensim, doc_tops_gensim, topwords_gensim
@@ -174,6 +179,10 @@ def topic_training_mallet(dataset, name_dataset, user, topics, mallet_path, opti
     out.write('random_seed_mallet: ' + str(random_seed_mallet) + '\n')
     out.write('optimiize_interval_mallet: ' + str(optimize_interval_mallet) + '\n')
     out.write('iterations_mallet: ' + str(iterations_mallet) + '\n')
+    out.write('Coherence Score: ' + str(coherence_ldamallet) + '\n')
+    out.write('Minimales Topic-Weight Gensim: ' + str(min_weight_mallet) + '\n')
+    out.write('Durchschnittliches Topic-Weight Gensim: ' + str(average_weight_mallet) + '\n')
+    out.write('Maximales Topic-Weight Gensim: ' + str(max_weight_mallet) + '\n')
     out.close()
 
     return lda_model_mallet, doc_tops_mallet, topwords_mallet
