@@ -1,6 +1,7 @@
 def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500, iterations_gensim=5000, random_state_gensim=100):
     import gensim
     import gensim.corpora as corpora
+    from gensim.models import CoherenceModel
     import os
     from datetime import datetime
     import pandas as pd
@@ -44,7 +45,10 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
 
     topwords_gensim = lda_model_gensim.print_topics(num_topics=topics, num_words=1000)
 
-
+    coherence_model_ldagensim = CoherenceModel(model=lda_model_gensim,
+                                               texts=dataset, dictionary=id2word, coherence='c_v')
+    coherence_ldagensim = coherence_model_ldagensim.get_coherence()
+    print('\nCoherence Score: ', coherence_ldagensim)
 
 
     print('Minimales Topic-Weight Gensim: ' + str(min_weight_gensim))
@@ -87,6 +91,7 @@ def topic_training_gensim(dataset, name_dataset, user, topics, passes_gensim=500
 def topic_training_mallet(dataset, name_dataset, user, topics, mallet_path, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100):
     import gensim
     import gensim.corpora as corpora
+    from gensim.models import CoherenceModel
     import os
     from datetime import datetime
     import pandas as pd
@@ -132,7 +137,10 @@ def topic_training_mallet(dataset, name_dataset, user, topics, mallet_path, opti
 
     topwords_mallet = lda_model_mallet.print_topics(num_topics=topics, num_words=1000)
 
-
+    coherence_model_ldamallet = CoherenceModel(model=lda_model_mallet,
+                                               texts=dataset, dictionary=id2word, coherence='c_v')
+    coherence_ldamallet = coherence_model_ldamallet.get_coherence()
+    print('\nCoherence Score: ', coherence_ldamallet)
 
     print('Minimales Topic-Weight Mallet: ' + str(min_weight_mallet))
     print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
