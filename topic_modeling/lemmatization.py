@@ -12,10 +12,10 @@ def lemmatization(texts, min_wordlen, stoplist= False, allowed_postags=False):
 
     for text in texts:
         doc = nlp(" ".join(text))
-    if allowed_postags:
-        texts_lemmatized.append([token.lemma_ for token in doc if token.pos_ in allowed_postags])
-    if not allowed_postags:
-        texts_lemmatized.append([token.lemma_ for token in doc])
+        if allowed_postags:
+            texts_lemmatized.append([token.lemma_ for token in doc if token.pos_ in allowed_postags])
+        if not allowed_postags:
+            texts_lemmatized.append([token.lemma_ for token in doc])
 
     if stoplist:
         data_out = [[word for word in doc if len(word) > min_wordlen and word not in stoplist] for doc in
