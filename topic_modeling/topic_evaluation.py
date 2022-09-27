@@ -80,63 +80,66 @@ def topic_search(topic_number, doc_tops, raw_data, average_topic_weight, *thresh
                  if tup[0] == topic_number and tup[1] >= threshold_topic_weight:
                      print(raw_data[j])
 
-#
-# def topic_weights_plot(engine, save_doc=False, save_fig=False):
-#     top_weight_sum = {}
-#
-#     if engine == 'gensim':
-#
-#         for i, line in enumerate(doc_tops_gensim):
-#             for tup in line:
-#                 if tup[0] not in top_weight_sum:
-#                     top_weight_sum[tup[0]] = tup[1]
-#                 if tup[0] in top_weight_sum:
-#                     top_weight_sum[tup[0]] += tup[1]
-#
-#     if engine == 'mallet':
-#
-#         for i, line in enumerate(doc_tops_mallet):
-#             for tup in line:
-#                 if tup[0] not in top_weight_sum:
-#                     top_weight_sum[tup[0]] = tup[1]
-#                 if tup[0] in top_weight_sum:
-#                     top_weight_sum[tup[0]] += tup[1]
-#
-#     points = []
-#     for top, weight in top_weight_sum.items():
-#         points.append((top, weight))
-#
-#     weights_reverse = [(tup[1], tup[0]) for tup in points]
-#     weights_sorted = sorted(weights_reverse, reverse=True)
-#
-#     x, y = list(zip(*points))
-#     pylab.bar(x, y)
-#     pylab.title('Topic Weight Sums')
-#     pylab.ylabel('Sum Weights')
-#     pylab.xlabel("Topic Nr.")
-#
-#     if save_fig:
-#         if engine == 'mallet':
-#             pylab.savefig(user_output + user + '_Mallet_topic_weight_sums_' + name_dataset_mallet + '_' + str(
-#                 topics_mallet) + 'topics' + now + '.pdf')
-#         if engine == 'gensim':
-#             pylab.savefig(user_output + user + '_Gensim_topic_weight_sums_' + name_dataset_gensim + '_' + str(
-#                 topics_gensim) + 'topics' + now + '.pdf')
-#
-#     pylab.show()
-#
-#     if save_doc:
-#         if engine == 'mallet':
-#             out = open(user_output + user + '_Mallet_top_weight_sums_' + name_dataset_mallet + '_' + str(
-#                 topics_mallet) + 'topics_' + now + '.txt', 'w', encoding='UTF-8')
-#         if engine == 'gensim':
-#             out = open(user_output + user + '_Gensim_top_weight_sums_' + name_dataset_gensim + '_' + str(
-#                 topics_gensim) + 'topics_' + now + '.txt', 'w', encoding='UTF-8')
-#         for line in weights_sorted:
-#             out.write(str(line))
-#         out.close()
-#
-#
+
+
+def topic_weights_plot(engine, doc_tops, save_doc=False, save_fig=False):
+    import pylab
+
+    top_weight_sum = {}
+
+    if engine == 'gensim':
+
+        for i, line in enumerate(doc_tops):
+            for tup in line:
+                if tup[0] not in top_weight_sum:
+                    top_weight_sum[tup[0]] = tup[1]
+                if tup[0] in top_weight_sum:
+                    top_weight_sum[tup[0]] += tup[1]
+
+    if engine == 'mallet':
+
+        for i, line in enumerate(doc_tops):
+            for tup in line:
+                if tup[0] not in top_weight_sum:
+                    top_weight_sum[tup[0]] = tup[1]
+                if tup[0] in top_weight_sum:
+                    top_weight_sum[tup[0]] += tup[1]
+
+    points = []
+    for top, weight in top_weight_sum.items():
+        points.append((top, weight))
+
+    weights_reverse = [(tup[1], tup[0]) for tup in points]
+    weights_sorted = sorted(weights_reverse, reverse=True)
+
+    x, y = list(zip(*points))
+    pylab.bar(x, y)
+    pylab.title('Topic Weight Sums')
+    pylab.ylabel('Sum Weights')
+    pylab.xlabel("Topic Nr.")
+
+    # if save_fig:
+    #    if engine == 'mallet':
+    #        pylab.savefig(user_output + user + '_Mallet_topic_weight_sums_' + name_dataset_mallet + '_' + str(
+    #            topics_mallet) + 'topics' + now + '.pdf')
+    #    if engine == 'gensim':
+    #        pylab.savefig(user_output + user + '_Gensim_topic_weight_sums_' + name_dataset_gensim + '_' + str(
+    #            topics_gensim) + 'topics' + now + '.pdf')
+
+    pylab.show()
+
+    # if save_doc:
+    #    if engine == 'mallet':
+    #        out = open(user_output + user + '_Mallet_top_weight_sums_' + name_dataset_mallet + '_' + str(
+    #            topics_mallet) + 'topics_' + now + '.txt', 'w', encoding='UTF-8')
+    #    if engine == 'gensim':
+    #        out = open(user_output + user + '_Gensim_top_weight_sums_' + name_dataset_gensim + '_' + str(
+    #            topics_gensim) + 'topics_' + now + '.txt', 'w', encoding='UTF-8')
+    #    for line in weights_sorted:
+    #        out.write(str(line))
+    #    out.close()
+
+
 # def word_count(dataset_wordcount):
 #     word_count = 0
 #
