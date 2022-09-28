@@ -1,68 +1,27 @@
-# def keyword_diversity(engine, number_of_words):
-#     '''
-#     Hier soll die Einzigartigkeit von Keywords innerhalb der Topics untersucht
-#     werden, in je weniger Topics ein Wort enthalten ist, desto trennschärfer
-#     sollten die Topics sein. Vgl. mit der Relevance Metric bei pyLDAvis,
-#     nähere Infos dazu im oben verlinkten Paper, und dem Exclusivity Score
-#     im Paper von Thompson/Mimno. Bislang harter Filter, es werden NUR
-#     einzigartige Wörter gezählt, ich möchte einen Threshold einbauen,
-#     dass "seltene" Wörter besser bewertet werden, also beispielsweise
-#     auch Wörter, die in 2-3 Topics vorkommen einen guten Score bekommen,
-#     Wörter, die in allen Topics vorkommen, einen schlechten. Das könnte
-#     man dann auch noch mit der jeweiligen Gewichtung im Topic verrechnen.
-#     Für Dennis hilfreich, weil er möglichst trennscharfe und konsistente
-#     Topics braucht, um die pluralistischen Inhalte der Sammlung abzubilden.
-#     -> evtl. noch in Zusammenhang mit Dictionary bringen
-#     '''
-#
-#     if engine == 'gensim':
-#
-#         if load_models == False:
-#             topwords = []
-#             toptops = lda_model_gensim.print_topics(num_topics=int(topics), num_words=number_of_words)
-#             for tupel in toptops:
-#                 words = re.findall(r"\"(.*?)\"", tupel[1])
-#                 for word in words:
-#                     topwords.append(word)
-#
-#         if load_models == True:
-#             topwords = []
-#             for line in top_words_gensim:
-#                 newline = []
-#                 for i in range(0, number_of_words):
-#                     newline.append(re.findall(r"\"(.*?)\"", line[1].split(' + ')[i])[0])
-#                 for word in newline:
-#                     topwords.append(word)
-#
-#         print(len(topwords))
-#         print(len(set(topwords)))
-#         singularity = (len(set(topwords)) / (int(topics_gensim) * number_of_words)) * 100
-#         print(str(int(singularity)) + '%')
-#
-#     if engine == 'mallet':
-#         if load_models == False:
-#             topwords = []
-#             toptops = lda_model_mallet.print_topics(num_topics=topics, num_words=number_of_words)
-#             for tupel in toptops:
-#                 words = re.findall(r"\"(.*?)\"", tupel[1])
-#                 for word in words:
-#                     topwords.append(word)
-#
-#         if load_models == True:
-#             topwords = []
-#             for line in top_words_mallet:
-#                 newline = []
-#                 for i in range(0, number_of_words):
-#                     newline.append(re.findall(r"\"(.*?)\"", line[1].split(' + ')[i])[0])
-#                 for word in newline:
-#                     topwords.append(word)
-#
-#         print(len(topwords))
-#         print(len(set(topwords)))
-#         singularity = (len(set(topwords)) / (int(topics_mallet) * number_of_words)) * 100
-#         print(str(int(singularity)) + '%')
-#
-#
+def keyword_diversity(top_words, number_of_words):
+     '''
+     Hier soll die Einzigartigkeit von Keywords innerhalb der Topics untersucht
+     werden, in je weniger Topics ein Wort enthalten ist, desto trennschärfer
+     sollten die Topics sein. Vgl. mit der Relevance Metric bei pyLDAvis,
+     nähere Infos dazu im oben verlinkten Paper, und dem Exclusivity Score
+     im Paper von Thompson/Mimno. Bislang harter Filter, es werden NUR
+     einzigartige Wörter gezählt, ich möchte einen Threshold einbauen,
+     dass "seltene" Wörter besser bewertet werden, also beispielsweise
+     auch Wörter, die in 2-3 Topics vorkommen einen guten Score bekommen,
+     Wörter, die in allen Topics vorkommen, einen schlechten. Das könnte
+     man dann auch noch mit der jeweiligen Gewichtung im Topic verrechnen.
+     Für Dennis hilfreich, weil er möglichst trennscharfe und konsistente
+     Topics braucht, um die pluralistischen Inhalte der Sammlung abzubilden.
+     -> evtl. noch in Zusammenhang mit Dictionary bringen
+     '''
+
+
+     print(len(top_words))
+     print(len(set(top_words)))
+     singularity = (len(set(top_words)) / (int(len(top_words)) * number_of_words)) * 100
+     print(str(int(singularity)) + '%')
+
+
 def topic_search(topic_number, doc_tops, raw_data, average_topic_weight, *threshold_custom_value):
      '''
      if threshold_custom_value is left empty, average topic weight is set as threshold
