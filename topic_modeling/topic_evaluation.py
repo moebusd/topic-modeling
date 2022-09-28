@@ -99,6 +99,7 @@ def topic_weights_plot(engine, doc_tops, save_doc=False, save_fig=False):
     if engine == 'mallet':
 
         for i, line in enumerate(doc_tops):
+            num_tops = len(line)
             for tup in line:
                 if tup[0] not in top_weight_sum:
                     top_weight_sum[tup[0]] = tup[1]
@@ -106,11 +107,22 @@ def topic_weights_plot(engine, doc_tops, save_doc=False, save_fig=False):
                     top_weight_sum[tup[0]] += tup[1]
 
     points = []
+
     for top, weight in top_weight_sum.items():
-        points.append((top, weight))
+        points.append((top, weight/len(doc_tops)))
+
+    average_weight = [tup[1] for tup in points][0]/num_tops
+
+    variance = 0
+    for top in points:
+        variance = variance + (((((len(top) - 1) - average_weight) ** 2) ** 0.5) / average_weight) * 100
+
+    standardabweichung = variance/num_tops
 
     weights_reverse = [(tup[1], tup[0]) for tup in points]
     weights_sorted = sorted(weights_reverse, reverse=True)
+
+
 
     x, y = list(zip(*points))
     pylab.bar(x, y)
@@ -127,6 +139,7 @@ def topic_weights_plot(engine, doc_tops, save_doc=False, save_fig=False):
     #            topics_gensim) + 'topics' + now + '.pdf')
 
     pylab.show()
+    return 'Standardabweichung: ' + str(standardabweichung)
 
     # if save_doc:
     #    if engine == 'mallet':
