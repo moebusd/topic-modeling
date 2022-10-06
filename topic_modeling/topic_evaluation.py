@@ -1,5 +1,5 @@
 def keyword_diversity(top_words, number_of_words):
-     '''
+    '''
      Hier soll die Einzigartigkeit von Keywords innerhalb der Topics untersucht
      werden, in je weniger Topics ein Wort enthalten ist, desto trennschärfer
      sollten die Topics sein. Vgl. mit der Relevance Metric bei pyLDAvis,
@@ -15,11 +15,16 @@ def keyword_diversity(top_words, number_of_words):
      -> evtl. noch in Zusammenhang mit Dictionary bringen
      '''
 
+    import re
+    top_words_combined = []
+    for line in top_words:
+        top_words_combined.append(line[1].split(' + ')[:number_of_words])
+    top_words = re.findall(r"\"(.*?)\"", str(top_words_combined))
 
-     print(len(top_words))
-     print(len(set(top_words)))
-     singularity = (len(set(top_words)) / (int(len(top_words)) * number_of_words)) * 100
-     print(str(int(singularity)) + '%')
+    print(len(top_words))
+    print(len(set(top_words)))
+    singularity = (len(set(top_words)) / (int(len(top_words)))*100)# * number_of_words)) * 100
+    print(str(int(singularity)) + '%')
 
 
 def topic_search(topic_number, doc_tops, raw_data, average_topic_weight, *threshold_custom_value):
@@ -41,23 +46,12 @@ def topic_search(topic_number, doc_tops, raw_data, average_topic_weight, *thresh
 
 
 
-def topic_weights_plot(engine, doc_tops, save_doc=False, save_fig=False):
+def topic_weights_plot(doc_tops, save_doc=False, save_fig=False):
     import pylab
 
     top_weight_sum = {}
 
-    if engine == 'gensim':
-
-        for i, line in enumerate(doc_tops):
-            for tup in line:
-                if tup[0] not in top_weight_sum:
-                    top_weight_sum[tup[0]] = tup[1]
-                if tup[0] in top_weight_sum:
-                    top_weight_sum[tup[0]] += tup[1]
-
-    if engine == 'mallet':
-
-        for i, line in enumerate(doc_tops):
+    for i, line in enumerate(doc_tops):
             num_tops = len(line)
             for tup in line:
                 if tup[0] not in top_weight_sum:
