@@ -5,7 +5,7 @@ from mallet_wrapper.coherencemodel import CoherenceModel
 import os
 from datetime import datetime
 import pandas as pd
-def topic_training_mallet(dataset, name_dataset, user, topics, mallet_path, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100, alpha=auto):
+def topic_training_mallet(dataset, name_dataset, user, topics, mallet_path, optimize_interval_mallet=500, iterations_mallet=5000, random_seed_mallet=100, alpha='auto'):
 
     id2word = corpora.Dictionary(dataset)
 
